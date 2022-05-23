@@ -6,7 +6,7 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.cloud.init({
-        env: 'voyz-cloud-86f82a',
+        env: 'alang1-b5455b',
         traceUser: true,
       })
     }
@@ -166,11 +166,21 @@ App({
   // 排序后取出数据
   getInfoByOrder: function (setName, ruleItem, orderFuc,callback) {
     const db = wx.cloud.database()
-    db.collection(setName)
+    /*db.collection(setName)
       .orderBy(ruleItem, orderFuc)
       .get()
       .then(callback)
-      .catch(console.error)
+      .catch(console.error)*/
+      db.collection(setName)
+      .where({
+        zhonglei:"1"
+      }).get({
+        success: function(res) {
+          console.log(res)
+          // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+          callback(res)
+        }
+      })
   },
 
   // 删除集合中的数据

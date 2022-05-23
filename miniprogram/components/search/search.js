@@ -31,7 +31,7 @@ Component({
     // 点击查找按钮
     toSearch: function(e){
       const myWord = getCurrentPages()["0"].data.searchWord
-      app.getInfoWhere('fruit-board', { name : myWord },
+      app.getInfoWhere('jnyhFood', { name : myWord },
         e => {
           if (e.data.length <= 0){
             wx.showToast({

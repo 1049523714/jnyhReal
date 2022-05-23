@@ -9,9 +9,9 @@ Page({
     imgSwiperUrl: '',
     fruitInfo: [],
     typeCat: [
-      { id: 0, name: "美味鲜果" },
-      { id: 1, name: "今日特惠" },
-      { id: 2, name: "新鲜上架" },
+      { id: 0, name: "热菜" },
+      { id: 1, name: "凉菜" },
+      { id: 2, name: "主食" },
       { id: 3, name: "店主推荐" },
     ],
     activeTypeId: 0,
@@ -40,7 +40,7 @@ Page({
     // console.log(e.currentTarget.dataset._id)
     var self = this
     let newItem = {}
-    app.getInfoWhere('fruit-board', { _id: e.currentTarget.dataset._id },
+    app.getInfoWhere('jnyhFood', { _id: e.currentTarget.dataset._id },
       e => {
         // console.log(e.data["0"])
         var newCartItem = e.data["0"]
@@ -56,50 +56,71 @@ Page({
 
   // ------------分类展示切换---------
   typeSwitch: function(e) {
-    // console.log(e.currentTarget.id)
+     console.log(e.currentTarget.id)
     getCurrentPages()["0"].setData({
       activeTypeId: parseInt(e.currentTarget.id)
     })
     switch (e.currentTarget.id) {
       // 全部展示
       case '0':
-        app.getInfoByOrder('fruit-board', 'time', 'desc',
-          e => {
-            getCurrentPages()["0"].setData({
-              fruitInfo: e.data
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: 'getAllFood',
+          // 传给云函数的参数
+          data: {
+            a:"1",
+            b:2
+          },
+          success: function(res) {
+            console.log(res.result)
+            getCurrentPages()[0].setData({
+              fruitInfo:res.result
             })
-          }
-        )
+          },
+          fail: console.error
+        })
         break;
       // 今日特惠
       case '1':
-        app.getInfoWhere('fruit-board', {myClass:'1'},
-          e => {
-            getCurrentPages()["0"].setData({
-              fruitInfo: e.data
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: 'getAllFood',
+          // 传给云函数的参数
+          data: {
+            a:"2",
+            b:2
+          },
+          success: function(res) {
+            console.log(res.result)
+            getCurrentPages()[0].setData({
+              fruitInfo:res.result
             })
-          }
-        )
+          },
+          fail: console.error
+        })
         break;
       // 销量排行
       case '2':
-        app.getInfoByOrder('fruit-board','time','desc',
-          e => {
-            getCurrentPages()["0"].setData({
-              fruitInfo: e.data
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: 'getAllFood',
+          // 传给云函数的参数
+          data: {
+            a:"3",
+            b:2
+          },
+          success: function(res) {
+            console.log(res.result)
+            getCurrentPages()[0].setData({
+              fruitInfo:res.result
             })
-          }
-        )
+          },
+          fail: console.error
+        })
         break;
       // 店主推荐
       case '3':
-        app.getInfoWhere('fruit-board', { recommend: '1' },
-          e => {
-            getCurrentPages()["0"].setData({
-              fruitInfo: e.data
-            })
-          }
-        )
+        console.log("酒水")
         break;
     }
   },
@@ -111,19 +132,47 @@ Page({
       url: '../detail/detail?_id=' + e.currentTarget.dataset.fid,
     })
   },
+  add: function(e) {
+    const db = wx.cloud.database()
+    
+  },
 
 
   // ------------生命周期函数------------
   onLoad: function (options) {
-    var that = this
-    wx.showLoading({
-      title: '生活要领鲜',
+    
+   
+    /*const db = wx.cloud.database()
+    db.collection('jnyhFood').add({
+      // data 字段表示需新增的 JSON 数据
+      data: {
+        name:"黄金饼",
+        zhonglei:"3",
+        price:"38",
+        unit:"例",
+        imgUrl:"cloud://alang1-b5455b.616c-alang1-b5455b-1300246101/jnyhphoto/mainfood/黄金饼38.png"
+      },
+      success: function(res) {
+        // res 是一个对象，其中有 _id 字段标记刚创建的记录的 id
+        console.log(res)
+      }
+    })*/
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'getAllFood',
+      // 传给云函数的参数
+      data: {
+        a:"1",
+        b:2
+      },
+      success: function(res) {
+        console.log(res.result)
+        getCurrentPages()[0].setData({
+          fruitInfo:res.result
+        })
+      },
+      fail: console.error
     })
-    that.setData({
-      isShow: false
-    })
-    // 获取openId
-    this.getOpenid();
   },
 
   onReady: function () {
@@ -131,36 +180,8 @@ Page({
   },
 
   onShow: function () {
-    var that = this
-    // 水果信息
-    // app.getInfoFromSet('fruit-board', {},
-    //   e => {
-    //     // console.log(e.data)
-    //     getCurrentPages()["0"].setData({
-    //       fruitInfo: e.data,
-    //       isShow: true
-    //     })
-    //     wx.hideLoading()
-    //   }
-    // )
-    app.getInfoByOrder('fruit-board', 'time', 'desc',
-      e => {
-        getCurrentPages()["0"].setData({
-          fruitInfo: e.data,
-          isShow: true
-        })
-        wx.hideLoading()
-      }
-    )
-    // console.log(app.globalData.offLine)
-    // 是否下线
-    app.getInfoWhere('setting', { "option": "offLine" },
-      e => {
-        that.setData({
-          offLine: e.data["0"].offLine
-        })
-      }
-    )
+    
+    
   },
 
   onHide: function () {

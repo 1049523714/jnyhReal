@@ -25,7 +25,7 @@
     "list": [
       {
         "pagePath": "pages/homepage/homepage",
-        "text": "水果",
+        "text": "菜品",
         "iconPath": "images/tabBar/homepage-sel.png",
         "selectedIconPath": "images/tabBar/homepage.png"
       },
@@ -34,12 +34,6 @@
         "text": "购物车",
         "iconPath": "images/tabBar/cart-sel.png",
         "selectedIconPath": "images/tabBar/cart.png"
-      },
-      {
-        "pagePath": "pages/me/me",
-        "text": "我的",
-        "iconPath": "images/tabBar/me-sel.png",
-        "selectedIconPath": "images/tabBar/me.png"
       }
     ]
   },
