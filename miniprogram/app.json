@@ -10,7 +10,8 @@
     "pages/pay/pay",
     "pages/address/address",
     "pages/orders/orders",
-    "pages/test524/test524"
+    "pages/test524/test524",
+    "pages/test5241/test5241"
   ],
   "window": {
     "backgroundColor": "#F0F0F0",
